@@ -12,13 +12,16 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.Table;
 import java.time.LocalDate;
 
 
 @Entity
 @Getter
-@Table(name = "employees")
+@Table(name = "employees",
+        indexes = @Index(name = "ix_gender_birthdate", columnList = "birth_date, gender") //인덱스는 테이블 생성 시에 같이 생성
+)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Employee {
 
