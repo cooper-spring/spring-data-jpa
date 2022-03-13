@@ -2,7 +2,7 @@ package com.cooper.springdatajpa.infra;
 
 import com.cooper.springdatajpa.domain.SalaryRepository;
 import com.cooper.springdatajpa.dto.LookupEmployeeSalaryResponseDTO;
-import com.cooper.springdatajpa.dto.QLookupEmployeeSalaryResponseDTO;
+import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -21,14 +21,33 @@ public class SalaryRepositoryImpl implements SalaryRepository {
 
     public List<LookupEmployeeSalaryResponseDTO> findAllTitleSalaries() {
         return jpaQueryFactory.query()
-                .select(Projections.fields(LookupEmployeeSalaryResponseDTO.class,
-                        employee.id,
+                .select(Projections.constructor(LookupEmployeeSalaryResponseDTO.class,
+                        employee.id.as("empNo"),
                         title.titleId.title,
-                        salary.amount
+                        salary.amount.as("salary")
                 ))
                 .from(salary)
                 .innerJoin(employee).on(salary.salaryId.empNo.eq(employee.id))
                 .innerJoin(title).on(employee.id.eq(title.titleId.empNo))
+                .fetch();
+    }
+
+    /**
+     * 2. join 사용 시, 명시적 조인을 사용하도록 하자.
+     * - 묵시적 조인을 선언했을 경우, cross join 이 발생할 위험이 있어 성능상 문제가 발생할 수 있다.
+     */
+    @Override
+    public List<LookupEmployeeSalaryResponseDTO> findSalariesByPaging(int pageNo) {
+        return jpaQueryFactory.query()
+                .select(Projections.constructor(LookupEmployeeSalaryResponseDTO.class,
+                        employee.id.as("empNo"),
+                        title.titleId.title,
+                        salary.amount.as("salary")
+                )).from(salary)
+                .innerJoin(employee).on(salary.salaryId.empNo.eq(employee.id))
+                .innerJoin(title).on(employee.id.eq(title.titleId.empNo))
+                .offset(pageNo)
+                .limit(10)
                 .fetch();
     }
 

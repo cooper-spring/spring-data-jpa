@@ -7,4 +7,7 @@ import java.util.List;
 public interface SalaryService {
 
     List<LookupEmployeeSalaryResponseDTO> findAllSalaries();
+
+    List<LookupEmployeeSalaryResponseDTO> findSalariesByPaging(int pageNo);
+
 }

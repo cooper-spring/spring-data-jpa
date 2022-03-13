@@ -18,4 +18,9 @@ public class SalaryServiceImpl implements SalaryService {
         return salaryRepository.findAllTitleSalaries();
     }
 
+    @Override
+    public List<LookupEmployeeSalaryResponseDTO> findSalariesByPaging(int pageNo) {
+        return salaryRepository.findSalariesByPaging(pageNo);
+    }
+
 }

@@ -8,4 +8,6 @@ public interface SalaryRepository {
 
     List<LookupEmployeeSalaryResponseDTO> findAllTitleSalaries();
 
+    List<LookupEmployeeSalaryResponseDTO> findSalariesByPaging(int pageNo);
+
 }
