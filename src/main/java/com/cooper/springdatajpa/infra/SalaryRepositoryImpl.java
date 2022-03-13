@@ -21,7 +21,7 @@ public class SalaryRepositoryImpl implements SalaryRepository {
 
     public List<LookupEmployeeSalaryResponseDTO> findAllTitleSalaries() {
         return jpaQueryFactory.query()
-                .select(new QLookupEmployeeSalaryResponseDTO(
+                .select(Projections.fields(LookupEmployeeSalaryResponseDTO.class,
                         employee.id,
                         title.titleId.title,
                         salary.amount
