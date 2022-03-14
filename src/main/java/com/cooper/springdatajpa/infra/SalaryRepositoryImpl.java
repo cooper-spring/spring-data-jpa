@@ -1,5 +1,6 @@
 package com.cooper.springdatajpa.infra;
 
+import com.cooper.springdatajpa.domain.SalaryId;
 import com.cooper.springdatajpa.domain.SalaryRepository;
 import com.cooper.springdatajpa.dto.LookupEmployeeSalaryResponseDTO;
 import com.querydsl.core.types.Projections;
@@ -44,6 +45,29 @@ public class SalaryRepositoryImpl implements SalaryRepository {
                         title.titleId.title,
                         salary.amount.as("salary")
                 )).from(salary)
+                .innerJoin(employee).on(salary.salaryId.empNo.eq(employee.id))
+                .innerJoin(title).on(employee.id.eq(title.titleId.empNo))
+                .offset(pageNo)
+                .limit(10)
+                .fetch();
+    }
+
+    @Override
+    public List<LookupEmployeeSalaryResponseDTO> findSalariesByCoveringIndex(int pageNo) {
+        List<SalaryId> ids = jpaQueryFactory.query()
+                .select(salary.salaryId)
+                .from(salary)
+                .limit(10)
+                .offset(pageNo)
+                .fetch();
+
+        return jpaQueryFactory.query()
+                .select(Projections.constructor(LookupEmployeeSalaryResponseDTO.class,
+                        employee.id.as("empNo"),
+                        title.titleId.title,
+                        salary.amount.as("salary")
+                )).from(salary)
+                .where(salary.salaryId.in(ids))
                 .innerJoin(employee).on(salary.salaryId.empNo.eq(employee.id))
                 .innerJoin(title).on(employee.id.eq(title.titleId.empNo))
                 .offset(pageNo)

@@ -10,4 +10,5 @@ public interface SalaryService {
 
     List<LookupEmployeeSalaryResponseDTO> findSalariesByPaging(int pageNo);
 
+    List<LookupEmployeeSalaryResponseDTO> findSalariesByCoveringIndex(int pageNo);
 }

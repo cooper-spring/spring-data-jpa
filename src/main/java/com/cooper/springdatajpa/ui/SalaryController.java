@@ -37,4 +37,9 @@ public class SalaryController {
         return ResponseEntity.ok(salaryResponseDTOList);
     }
 
+    @GetMapping("/covering/{pageNo}")
+    public ResponseEntity<List<LookupEmployeeSalaryResponseDTO>> getSalariesByCovering(@PathVariable int pageNo) {
+        List<LookupEmployeeSalaryResponseDTO> salaryResponseDTOList = salaryService.findSalariesByCoveringIndex(pageNo);
+        return ResponseEntity.ok(salaryResponseDTOList);
+    }
 }
