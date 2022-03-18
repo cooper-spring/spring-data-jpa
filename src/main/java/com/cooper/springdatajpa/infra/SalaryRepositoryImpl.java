@@ -77,11 +77,10 @@ public class SalaryRepositoryImpl implements SalaryRepository {
     }
 
     @Override
-    public List<LookUpSalarySumPerEmployeeResponseDTO> calculateSumOfSalaryPerEmployee() {
+    public List<LookUpSalarySumPerEmployeeResponseDTO> getSumOfSalariesPerEmployee() {
         return jpaQueryFactory.query()
                 .select(Projections.constructor(LookUpSalarySumPerEmployeeResponseDTO.class,
-                        employee.lastName,
-                        title.titleId.title,
+                        employee.lastName.concat(" ").concat(employee.firstName),
                         salary.amount.sum().as("sumOfSalaries")
                 ))
                 .from(salary)
@@ -90,4 +89,5 @@ public class SalaryRepositoryImpl implements SalaryRepository {
                 .groupBy(employee.id)
                 .fetch();
     }
+
 }

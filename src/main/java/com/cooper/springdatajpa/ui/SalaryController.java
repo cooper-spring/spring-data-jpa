@@ -45,9 +45,9 @@ public class SalaryController {
     }
 
     @GetMapping("/sum/employees/all")
-    public ResponseEntity<List<LookUpSalarySumPerEmployeeResponseDTO>> getSalarySumPerEmployee() {
+    public ResponseEntity<List<LookUpSalarySumPerEmployeeResponseDTO>> getSumOfSalariesPerEmployee() {
         List<LookUpSalarySumPerEmployeeResponseDTO> lookUpSalarySumPerEmployeeResponseDTOList
-                = salaryService.calculateSumOfSalaryPerEmployee();
+                = salaryService.getSumOfSalariesPerEmployee();
         return ResponseEntity.ok(lookUpSalarySumPerEmployeeResponseDTOList);
     }
 }
