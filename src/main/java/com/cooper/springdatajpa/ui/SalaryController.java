@@ -1,6 +1,7 @@
 package com.cooper.springdatajpa.ui;
 
 import com.cooper.springdatajpa.application.SalaryService;
+import com.cooper.springdatajpa.dto.LookUpSalarySumPerEmployeeResponseDTO;
 import com.cooper.springdatajpa.dto.LookupEmployeeSalaryResponseDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -41,5 +42,12 @@ public class SalaryController {
     public ResponseEntity<List<LookupEmployeeSalaryResponseDTO>> getSalariesByCovering(@PathVariable int pageNo) {
         List<LookupEmployeeSalaryResponseDTO> salaryResponseDTOList = salaryService.findSalariesByCoveringIndex(pageNo);
         return ResponseEntity.ok(salaryResponseDTOList);
+    }
+
+    @GetMapping("/sum/employees/all")
+    public ResponseEntity<List<LookUpSalarySumPerEmployeeResponseDTO>> getSalarySumPerEmployee() {
+        List<LookUpSalarySumPerEmployeeResponseDTO> lookUpSalarySumPerEmployeeResponseDTOList
+                = salaryService.calculateSumOfSalaryPerEmployee();
+        return ResponseEntity.ok(lookUpSalarySumPerEmployeeResponseDTOList);
     }
 }

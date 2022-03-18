@@ -2,6 +2,7 @@ package com.cooper.springdatajpa.infra;
 
 import com.cooper.springdatajpa.domain.SalaryId;
 import com.cooper.springdatajpa.domain.SalaryRepository;
+import com.cooper.springdatajpa.dto.LookUpSalarySumPerEmployeeResponseDTO;
 import com.cooper.springdatajpa.dto.LookupEmployeeSalaryResponseDTO;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -75,4 +76,18 @@ public class SalaryRepositoryImpl implements SalaryRepository {
                 .fetch();
     }
 
+    @Override
+    public List<LookUpSalarySumPerEmployeeResponseDTO> calculateSumOfSalaryPerEmployee() {
+        return jpaQueryFactory.query()
+                .select(Projections.constructor(LookUpSalarySumPerEmployeeResponseDTO.class,
+                        employee.lastName,
+                        title.titleId.title,
+                        salary.amount.sum().as("sumOfSalaries")
+                ))
+                .from(salary)
+                .innerJoin(employee).on(salary.salaryId.empNo.eq(employee.id))
+                .innerJoin(title).on(employee.id.eq(title.titleId.empNo))
+                .groupBy(employee.id)
+                .fetch();
+    }
 }
