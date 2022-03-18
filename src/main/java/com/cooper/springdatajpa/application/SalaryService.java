@@ -13,6 +13,6 @@ public interface SalaryService {
 
     List<LookupEmployeeSalaryResponseDTO> findSalariesByCoveringIndex(int pageNo);
 
-    List<LookUpSalarySumPerEmployeeResponseDTO> getSumOfSalariesPerEmployee();
+    List<LookUpSalarySumPerEmployeeResponseDTO> getSumOfSalariesPerEmployee(int pageNo);
 
 }

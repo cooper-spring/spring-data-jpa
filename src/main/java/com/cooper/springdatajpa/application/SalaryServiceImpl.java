@@ -30,7 +30,7 @@ public class SalaryServiceImpl implements SalaryService {
     }
 
     @Override
-    public List<LookUpSalarySumPerEmployeeResponseDTO> getSumOfSalariesPerEmployee() {
-        return salaryRepository.getSumOfSalariesPerEmployee();
+    public List<LookUpSalarySumPerEmployeeResponseDTO> getSumOfSalariesPerEmployee(int pageNo) {
+        return salaryRepository.getSumOfSalariesPerEmployee(pageNo);
     }
 }
