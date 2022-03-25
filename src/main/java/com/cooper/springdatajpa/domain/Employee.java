@@ -3,6 +3,7 @@ package com.cooper.springdatajpa.domain;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.Column;
@@ -47,5 +48,18 @@ public class Employee {
     @Column(name = "hire_date", nullable = false)
     private LocalDate hireDate;
 
-}
+    public Employee(
+            LocalDate birthDate,
+            String firstName,
+            String lastName,
+            Gender gender,
+            LocalDate hireDate
+    ) {
+        this.birthDate = birthDate;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.gender = gender;
+        this.hireDate = hireDate;
+    }
 
+}
