@@ -6,4 +6,5 @@ public interface EmployeeRepository {
 
     Optional<Employee> findById(Long id);
 
+    boolean exists(Long employeeId);
 }

@@ -1,6 +1,7 @@
 package com.cooper.springdatajpa.ui;
 
 import com.cooper.springdatajpa.application.EmployeeService;
+import com.cooper.springdatajpa.dto.ExistEmployeeResponseDTO;
 import com.cooper.springdatajpa.dto.LookupEmployeeResponseDTO;
 import com.cooper.springdatajpa.ui.response.ApiResponse;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,12 @@ public class EmployeeController {
     public ResponseEntity<ApiResponse<LookupEmployeeResponseDTO>> getEmployee(@PathVariable Long id) {
         LookupEmployeeResponseDTO lookupEmployeeResponseDTO = employeeService.findById(id);
         return ResponseEntity.ok().body(ApiResponse.create(lookupEmployeeResponseDTO));
+    }
+
+    @GetMapping("/{id}/exist")
+    public ResponseEntity<ApiResponse<ExistEmployeeResponseDTO>> existsEmployee(@PathVariable Long id) {
+        ExistEmployeeResponseDTO existEmployeeResponseDTO = employeeService.exists(id);
+        return ResponseEntity.ok().body(ApiResponse.create(existEmployeeResponseDTO));
     }
 
 }
