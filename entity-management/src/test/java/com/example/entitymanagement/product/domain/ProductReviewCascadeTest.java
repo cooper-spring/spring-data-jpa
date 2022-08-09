@@ -18,6 +18,9 @@ class ProductReviewCascadeTest {
     private TestEntityManager testEntityManager;
 
     @Autowired
+    private ProductRepository productRepository;
+
+    @Autowired
     private ReviewRepository reviewRepository;
 
     @Test
@@ -65,6 +68,27 @@ class ProductReviewCascadeTest {
                 () -> assertThat(reviewRepository.findAll()).hasSize(1),
                 () -> assertThat(product.reviews()).hasSize(1)
         );
+    }
+
+    @Test
+    @DisplayName("product를 조회시 Review의 추가 쿼리 여부를 확인한다")
+    void checkOptionalQuery() {
+        //given
+        Product product = Product.create("상품1");
+        Review review1 = Review.create("리뷰 코멘트1");
+        Review review2 = Review.create("리뷰 코멘트2");
+
+        product.addReview(review1);
+        product.addReview(review2);
+
+        testEntityManager.persist(product);
+
+        //when
+        Product lookupProduct = productRepository.findByName("상품1");
+
+        List<Review> reviews = lookupProduct.getReviews().reviews();
+        System.out.println(reviews.size());
+        //then
     }
 
 }
